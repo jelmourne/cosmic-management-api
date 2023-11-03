@@ -25,5 +25,49 @@ namespace cosmic_management_api.Controllers {
             return response;
         }
 
+        [HttpPost]
+        [Route("createUser")]
+        public Response createUser(User user) {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response response = db.createUser(con, user);
+
+            return response;
+        }
+
+        
+        [HttpGet]
+        [Route("getPoduction")]
+        public Response getProduction() {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response response = db.getProduction(con);
+
+            return response;
+        }
+
+        [HttpPut]
+        [Route("updateProduction")]
+        public Response updateProduction(Production prod) {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response response = db.updateProduction(con, prod);
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("insertProduction")]
+        public Response insertProduction(Production prod) {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response response = db.insertProduction(con, prod);
+
+            return response;
+        }
     }
 }
