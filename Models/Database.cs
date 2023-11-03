@@ -136,20 +136,52 @@ namespace cosmic_management_api.Models {
         public Response deleteProduction(NpgsqlConnection con, Production prod) {
             con.Open();
             Response response = new Response();
-            string Query = string.Format("DELETE FROM festival.production WHERE type = '{0}' AND description = '{1}')", prod.type, prod.description);
+            string Query = string.Format("DELETE FROM festival.production WHERE type = '{0}' AND description = '{1}'", prod.type, prod.description);
 
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
             int i = cmd.ExecuteNonQuery();
 
             if (i > 0) {
                 response.status = 200;
-                response.message = "Production created successfully";
+                response.message = "Production deleted successfully";
                 response.body = prod;
                 response.data = null;
             }
             else {
                 response.status = 500;
-                response.message = "Failed to create production";
+                response.message = "Failed to delete production";
+                response.body = null;
+                response.data = null;
+            }
+            con.Close();
+            return response;
+
+        }
+
+        public Response AddStage(NpgsqlConnection con, Stage stage)
+        {
+            con.Open();
+            Response response = new Response();
+
+            string Query = "INSERT INTO festival.stage VALUES(default, @name, @genre, @size)";
+
+            NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
+            cmd.Parameters.AddWithValue("@name", stage.name);
+            cmd.Parameters.AddWithValue("@genre", stage.genre);
+            cmd.Parameters.AddWithValue("@size", stage.size);
+
+            int i = cmd.ExecuteNonQuery();
+
+            if (i > 0)
+            {
+                response.status = 200;
+                response.message = "Stage added successfully";
+                response.body = stage;
+                response.data = null;
+            } else
+            {
+                response.status = 500;
+                response.message = "Failed to add stage";
                 response.body = null;
                 response.data = null;
             }

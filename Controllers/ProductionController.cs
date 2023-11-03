@@ -69,5 +69,17 @@ namespace cosmic_management_api.Controllers {
 
             return response;
         }
+
+        [HttpDelete]
+        [Route("deleteProduction")]
+        public Response deleteProduction(Production prod)
+        {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response response = db.deleteProduction(con, prod);
+
+            return response;
+        }
     }
 }
