@@ -189,6 +189,139 @@ namespace cosmic_management_api.Models {
             return response;
 
         }
+
+        public Response DeleteStage(NpgsqlConnection con, string name)
+        {
+            con.Open();
+            Response response = new Response();
+            string Query = string.Format("DELETE FROM festival.stage WHERE name = '{0}'", name);
+
+            NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
+            int i = cmd.ExecuteNonQuery();
+
+            if (i > 0)
+            {
+                response.status = 200;
+                response.message = "Stage deleted successfully";
+                response.body = null;
+                response.data = null;
+            }
+            else
+            {
+                response.status = 500;
+                response.message = "Failed to delete stage";
+                response.body = null;
+                response.data = null;
+            }
+            con.Close();
+            return response;
+
+        }
+
+        public Response UpdateStage(NpgsqlConnection con, Stage stage)
+        {
+            con.Open();
+            Response response = new Response();
+            string Query = string.Format("UPDATE festival.stage SET name = '{0}', genre = '{1}', size = '{2}' WHERE stage_id = {3}", stage.name, stage.genre, stage.size, stage.id);
+            NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
+
+            int i = cmd.ExecuteNonQuery();
+            if (i > 0)
+            {
+                response.status = 200;
+                response.message = "Successfully updated stage";
+                response.body = stage;
+                response.data = null;
+            }
+            else
+            {
+                response.status = 100;
+                response.message = "Failed to update stage";
+                response.body = null;
+                response.data = null;
+            }
+            con.Close();
+            return response;
+        }
+
+        public Response GetStageByName(NpgsqlConnection con, string name)
+        {
+            Response response = new Response();
+            string Query = string.Format("SELECT * FROM festival.stage WHERE name = '{0}'", name);
+            NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
+
+            NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            if (dt.Rows.Count > 0) // If table is not empty
+            {
+   
+                Stage stage = new Stage();
+
+                stage.id = (int)dt.Rows[0]["stage_id"];
+                stage.name = (string)dt.Rows[0]["name"];
+                stage.genre = (string)dt.Rows[0]["genre"];
+                stage.size = (string)dt.Rows[0]["size"];
+
+                response.status = 200;
+                response.message = "Data retrieved successfully";
+                response.body = stage;
+                response.data = null;
+            }
+            else
+            {
+                response.status = 500;
+                response.message = "Data failed to retrieve, or table is empty";
+                response.body = null;
+                response.data = null;
+            }
+            return response;
+
+        }
+
+        public Response GetAllStages(NpgsqlConnection con)
+        {
+            string Query = "SELECT * FROM festival.stage";
+
+            NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            Response response = new Response();
+
+            List<Stage> stages = new List<Stage>();
+
+            if (dt.Rows.Count > 0) // If table is not empty
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Stage stage = new Stage();
+
+                    stage.id = (int) dt.Rows[i]["stage_id"];
+                    stage.name = (string) dt.Rows[i]["name"];
+                    stage.genre = (string) dt.Rows[i]["genre"];
+                    stage.size = (string) dt.Rows[i]["size"];
+                    stages.Add(stage);
+                }
+            }
+
+            if (stages.Count > 0)
+            {
+                response.status = 200;
+                response.message = "Data retrieved successfully";
+                response.body = stages;
+                response.data = null;
+            }
+            else
+            {
+                response.status = 100;
+                response.message = "Data failed to retrieve, or table is empty";
+                response.body = null;
+                response.data = null;
+            }
+            return response;
+        }
     }
 }
 

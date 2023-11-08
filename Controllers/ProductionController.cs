@@ -38,7 +38,7 @@ namespace cosmic_management_api.Controllers {
 
         
         [HttpGet]
-        [Route("getPoduction")]
+        [Route("getProduction")]
         public Response getProduction() {
             NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
 
