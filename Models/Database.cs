@@ -158,10 +158,10 @@ namespace cosmic_management_api.Models {
 
         }
 
-        public Response AddStage(NpgsqlConnection con, Stage stage)
+        public StageResponse AddStage(NpgsqlConnection con, Stage stage)
         {
             con.Open();
-            Response response = new Response();
+            StageResponse response = new StageResponse();
 
             string Query = "INSERT INTO festival.stage VALUES(default, @name, @genre, @size)";
 
@@ -176,24 +176,24 @@ namespace cosmic_management_api.Models {
             {
                 response.status = 200;
                 response.message = "Stage added successfully";
-                response.body = stage;
-                response.data = null;
+                response.stage = stage;
+                response.stages = null;
             } else
             {
                 response.status = 500;
                 response.message = "Failed to add stage";
-                response.body = null;
-                response.data = null;
+                response.stage = null;
+                response.stages = null;
             }
             con.Close();
             return response;
 
         }
 
-        public Response DeleteStage(NpgsqlConnection con, string name)
+        public StageResponse DeleteStage(NpgsqlConnection con, string name)
         {
             con.Open();
-            Response response = new Response();
+            StageResponse response = new StageResponse();
             string Query = string.Format("DELETE FROM festival.stage WHERE name = '{0}'", name);
 
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
@@ -203,25 +203,25 @@ namespace cosmic_management_api.Models {
             {
                 response.status = 200;
                 response.message = "Stage deleted successfully";
-                response.body = null;
-                response.data = null;
+                response.stage = null;
+                response.stages = null;
             }
             else
             {
                 response.status = 500;
                 response.message = "Failed to delete stage";
-                response.body = null;
-                response.data = null;
+                response.stage = null;
+                response.stages = null;
             }
             con.Close();
             return response;
 
         }
 
-        public Response UpdateStage(NpgsqlConnection con, Stage stage)
+        public StageResponse UpdateStage(NpgsqlConnection con, Stage stage)
         {
             con.Open();
-            Response response = new Response();
+            StageResponse response = new StageResponse();
             string Query = string.Format("UPDATE festival.stage SET name = '{0}', genre = '{1}', size = '{2}' WHERE stage_id = {3}", stage.name, stage.genre, stage.size, stage.id);
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
 
@@ -230,23 +230,23 @@ namespace cosmic_management_api.Models {
             {
                 response.status = 200;
                 response.message = "Successfully updated stage";
-                response.body = stage;
-                response.data = null;
+                response.stage = stage;
+                response.stages = null;
             }
             else
             {
                 response.status = 100;
                 response.message = "Failed to update stage";
-                response.body = null;
-                response.data = null;
+                response.stage = null;
+                response.stages = null;
             }
             con.Close();
             return response;
         }
 
-        public Response GetStageByName(NpgsqlConnection con, string name)
+        public StageResponse GetStageByName(NpgsqlConnection con, string name)
         {
-            Response response = new Response();
+            StageResponse response = new StageResponse();
             string Query = string.Format("SELECT * FROM festival.stage WHERE name = '{0}'", name);
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
 
@@ -266,21 +266,21 @@ namespace cosmic_management_api.Models {
 
                 response.status = 200;
                 response.message = "Data retrieved successfully";
-                response.body = stage;
-                response.data = null;
+                response.stage = stage;
+                response.stages = null;
             }
             else
             {
                 response.status = 500;
                 response.message = "Data failed to retrieve, or table is empty";
-                response.body = null;
-                response.data = null;
+                response.stage = null;
+                response.stages = null;
             }
             return response;
 
         }
 
-        public Response GetAllStages(NpgsqlConnection con)
+        public StageResponse GetAllStages(NpgsqlConnection con)
         {
             string Query = "SELECT * FROM festival.stage";
 
@@ -288,7 +288,7 @@ namespace cosmic_management_api.Models {
             DataTable dt = new DataTable();
             da.Fill(dt);
 
-            Response response = new Response();
+            StageResponse response = new StageResponse();
 
             List<Stage> stages = new List<Stage>();
 
@@ -310,15 +310,15 @@ namespace cosmic_management_api.Models {
             {
                 response.status = 200;
                 response.message = "Data retrieved successfully";
-                response.body = stages;
-                response.data = null;
+                response.stage = null;
+                response.stages = stages;
             }
             else
             {
                 response.status = 100;
                 response.message = "Data failed to retrieve, or table is empty";
-                response.body = null;
-                response.data = null;
+                response.stage = null;
+                response.stages = null;
             }
             return response;
         }
