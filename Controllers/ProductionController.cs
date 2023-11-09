@@ -16,22 +16,22 @@ namespace cosmic_management_api.Controllers {
 
         [HttpGet]
         [Route("loginUser")] 
-        public Response loginUser(User user) {
+        public Response<User> loginUser(User user) {
             NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
 
             Database db = new Database();
-            Response response = db.loginUser(con, user);
+            Response<User> response = db.loginUser(con, user);
 
             return response;
         }
 
         [HttpPost]
         [Route("createUser")]
-        public Response createUser(User user) {
+        public Response<User> createUser(User user) {
             NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
 
             Database db = new Database();
-            Response response = db.createUser(con, user);
+            Response<User> response = db.createUser(con, user);
 
             return response;
         }
@@ -39,88 +39,88 @@ namespace cosmic_management_api.Controllers {
         
         [HttpGet]
         [Route("getPoduction")]
-        public Response getProduction() {
+        public Response<Production> getProduction() {
             NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
 
             Database db = new Database();
-            Response response = db.getProduction(con);
+            Response<Production> response = db.getProduction(con);
 
             return response;
         }
 
         [HttpPut]
         [Route("updateProduction")]
-        public Response updateProduction(Production prod) {
+        public Response<Production> updateProduction(Production prod) {
             NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
 
             Database db = new Database();
-            Response response = db.updateProduction(con, prod);
+            Response<Production> response = db.updateProduction(con, prod);
 
             return response;
         }
 
         [HttpPost]
         [Route("insertProduction")]
-        public Response insertProduction(Production prod) {
+        public Response<Production> insertProduction(Production prod) {
             NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
 
             Database db = new Database();
-            Response response = db.insertProduction(con, prod);
+            Response<Production> response = db.insertProduction(con, prod);
 
             return response;
         }
 
         [HttpDelete]
         [Route("deleteProduction")]
-        public Response deleteProduction(Production prod) {
+        public Response<Production> deleteProduction(Production prod) {
             NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
 
             Database db = new Database();
-            Response response = db.deleteProduction(con, prod);
+            Response<Production> response = db.deleteProduction(con, prod);
 
             return response;
         }
 
         [HttpGet]
         [Route("getVendor")]
-        public Response getVendor() {
+        public Response<Vendor> getVendor() {
             NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
 
             Database db = new Database();
-            Response response = db.getVendor(con);
+            Response<Vendor> response = db.getVendor(con);
 
             return response;
         }
 
         [HttpPut]
         [Route("updateVendor")]
-        public Response updateVendor(Vendor vendor) {
+        public Response<Vendor> updateVendor(Vendor vendor) {
             NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
 
             Database db = new Database();
-            Response response = db.updateVendor(con, vendor);
+            Response<Vendor> response = db.updateVendor(con, vendor);
 
             return response;
         }
 
         [HttpPost]
         [Route("insertVendor")]
-        public Response insertVendor(Vendor vendor) {
+        public Response<Vendor> insertVendor(Vendor vendor) {
             NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
 
             Database db = new Database();
-            Response response = db.insertVendor(con, vendor);
+            Response<Vendor> response = db.insertVendor(con, vendor);
 
             return response;
         }
 
         [HttpDelete]
         [Route("deleteVendor")]
-        public Response deleteVendor(Vendor vendor) {
+        public Response<Vendor> deleteVendor(Vendor vendor) {
             NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
 
             Database db = new Database();
-            Response response = db.deleteVendor(con, vendor);
+            Response<Vendor> response = db.deleteVendor(con, vendor);
 
             return response;
         }
