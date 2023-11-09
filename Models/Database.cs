@@ -6,7 +6,7 @@ namespace cosmic_management_api.Models {
         public Response loginUser(NpgsqlConnection con, User user) {
             con.Open();
             Response response = new Response();
-            string Query = string.Format("SELECT * FROM festival.user WHERE username='{0}' AND password='{1}'", user.Username, user.Password);
+            string Query = string.Format("SELECT * FROM festival.user WHERE username='{0}' AND password='{1}'", user.username, user.password);
 
             NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
             DataTable dt = new DataTable();
@@ -14,9 +14,9 @@ namespace cosmic_management_api.Models {
 
             if(dt.Rows.Count > 0) {
                 User newUser = new User();
-                newUser.Name = (string)dt.Rows[0]["name"];
-                newUser.Username = (string)dt.Rows[0]["username"];
-                newUser.Admin = (bool)dt.Rows[0]["is_admin"];
+                newUser.name = (string)dt.Rows[0]["name"];
+                newUser.username = (string)dt.Rows[0]["username"];
+                newUser.admin = (bool)dt.Rows[0]["is_admin"];
 
                 response.status = 200;
                 response.message = "Logged in successfully";
@@ -36,7 +36,7 @@ namespace cosmic_management_api.Models {
         public Response createUser(NpgsqlConnection con, User user) {
             con.Open();
             Response response = new Response();
-            string Query = string.Format("INSERT INTO festival.user(name,username,password,is_admin) VALUES ('{0}','{1}','{2}',{3})",user.Name, user.Username, user.Password, user.Admin);
+            string Query = string.Format("INSERT INTO festival.user(name,username,password,is_admin) VALUES ('{0}','{1}','{2}',{3})",user.name, user.username, user.password, user.admin);
 
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
             int i = cmd.ExecuteNonQuery();
@@ -176,10 +176,10 @@ namespace cosmic_management_api.Models {
             if (dt.Rows.Count > 0) {
                 for (int i = 0; i < dt.Rows.Count; i++) {
                     Vendor vendor = new Vendor();
-                    vendor.Id = (int)dt.Rows[i]["vendor_id"];
-                    vendor.Name = (string)dt.Rows[i]["name"];
-                    vendor.Type = (string)dt.Rows[i]["type"];
-                    vendor.Location = (int)dt.Rows[i]["location"];
+                    vendor.id = (int)dt.Rows[i]["vendor_id"];
+                    vendor.name = (string)dt.Rows[i]["name"];
+                    vendor.type = (string)dt.Rows[i]["type"];
+                    vendor.location = (int)dt.Rows[i]["location"];
                     list.Add(vendor);
                 }
                 response.status = 200;
@@ -199,7 +199,7 @@ namespace cosmic_management_api.Models {
 
         public Response updateVendor(NpgsqlConnection con, Vendor vendor) {
             Response response = new Response();
-            string Query = string.Format("UPDATE festival.vendor SET name = '{0}', type = '{1}' WHERE prod_id = {2}", vendor.Name, vendor.Type, vendor.Id);
+            string Query = string.Format("UPDATE festival.vendor SET name = '{0}', type = '{1}' WHERE prod_id = {2}", vendor.name, vendor.type, vendor.id);
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
 
             int i = cmd.ExecuteNonQuery();
@@ -222,7 +222,7 @@ namespace cosmic_management_api.Models {
         public Response insertVendor(NpgsqlConnection con, Vendor vendor) {
             con.Open();
             Response response = new Response();
-            string Query = string.Format("INSERT INTO festival.vendor(name,type,location) VALUES ('{0}','{1}',{2})", vendor.Name, vendor.Type, vendor.Location); ;
+            string Query = string.Format("INSERT INTO festival.vendor(name,type,location) VALUES ('{0}','{1}',{2})", vendor.name, vendor.type, vendor.location); ;
 
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
             int i = cmd.ExecuteNonQuery();
@@ -246,7 +246,7 @@ namespace cosmic_management_api.Models {
         public Response deleteVendor(NpgsqlConnection con, Vendor vendor) {
             con.Open();
             Response response = new Response();
-            string Query = string.Format("DELETE FROM festival.vendor WHERE vendor_id = {0})", vendor.Id);
+            string Query = string.Format("DELETE FROM festival.vendor WHERE vendor_id = {0})", vendor.id);
 
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
             int i = cmd.ExecuteNonQuery();
