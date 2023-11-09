@@ -27,6 +27,8 @@ namespace cosmic_management_api.Controllers
             return response;
         }
 
+
+
         [HttpDelete]
         [Route("DeleteStage/{name}")]
         public StageResponse DeleteStage(string name)
@@ -74,5 +76,18 @@ namespace cosmic_management_api.Controllers
 
             return response;
         }
+
+        [HttpGet]
+        [Route("GetStageReqs/{id}")]
+        public Response GetStageReqs(int id)
+        {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response response = db.GetStageReqs(con, id);
+
+            return response;
+        }
+
     }
 }

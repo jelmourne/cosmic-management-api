@@ -61,7 +61,7 @@ namespace cosmic_management_api.Models {
             NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
             DataTable dt = new DataTable();
             da.Fill(dt);
-            List<object> list = new List<object>();
+            List<Production> list = new List<Production>();
 
             if (dt.Rows.Count > 0) {
                 for (int i = 0; i < dt.Rows.Count; i++) {
@@ -80,7 +80,7 @@ namespace cosmic_management_api.Models {
                 response.status = 500;
                 response.message = "Failed to query production";
                 response.body = null;
-                response.data = null;
+                response.data = list;
             }
             con.Close();
             return response;
@@ -321,6 +321,82 @@ namespace cosmic_management_api.Models {
                 response.stages = null;
             }
             return response;
+        }
+
+        public Response GetStageReqs(NpgsqlConnection con, int id)
+        {
+            string Query = string.Format("SELECT p.prod_id, type, description " +
+                                         "FROM festival.stage_prod " +
+                                         "INNER JOIN festival.production p on p.prod_id = stage_prod.prod_id " +
+                                         "INNER JOIN festival.stage s on s.stage_id = stage_prod.stage_id " +
+                                         "WHERE stage_prod.stage_id = '{0}'", id);
+
+            NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            Response response = new Response();
+
+            List<Production> stageReqsList = new List<Production>();
+
+            if (dt.Rows.Count > 0) // If table is not empty
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Production production = new Production();
+                    production.id = (int)dt.Rows[i]["prod_id"];
+                    production.type = (string)dt.Rows[i]["type"];
+                    production.description = (string)dt.Rows[i]["description"];
+
+                    stageReqsList.Add(production);
+                }
+            }
+
+            if (stageReqsList.Count > 0)
+            {
+                response.status = 200;
+                response.message = "Data retrieved successfully";
+                response.body = null;
+                response.data = stageReqsList;
+            }
+            else
+            {
+                response.status = 100;
+                response.message = "Data failed to retrieve, or table is empty";
+                response.body = null;
+                response.data = null;
+            }
+            return response;
+        }
+
+        public Response AddStageReq(NpgsqlConnection con, Stage stage, Production prod)
+        {
+            con.Open();
+            Response response = new Response();
+
+            string Query = string.Format("INSERT INTO festival.stage_prod VALUES('{0}','{1}')", stage.id, prod.id);
+
+            NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
+
+            int i = cmd.ExecuteNonQuery();
+
+            if (i > 0)
+            {
+                response.status = 200;
+                response.message = "Data added successfully";
+                response.body = null;
+                response.data = null;
+            }
+            else
+            {
+                response.status = 500;
+                response.message = "Failed to add data";
+                response.body = null;
+                response.data = null;
+            }
+            con.Close();
+            return response;
+
         }
     }
 }

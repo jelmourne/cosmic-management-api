@@ -1,13 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\Controllers",
-    "\\Models"
+    ""
   ],
-<<<<<<< HEAD
-  "SelectedNode": "\\Models\\Database.cs",
-=======
-  "SelectedNode": "\\Controllers\\ProductionController.cs",
->>>>>>> 91a9601e38c6ee40dfb819acf2d051823f6e7a89
+  "SelectedNode": "\\cosmic-management-api.sln",
   "PreviewInSolutionExplorer": false
 }
