@@ -13,9 +13,14 @@ namespace cosmic_management_api.Models {
             da.Fill(dt);
 
             if(dt.Rows.Count > 0) {
+                User newUser = new User();
+                newUser.Name = (string)dt.Rows[0]["name"];
+                newUser.Username = (string)dt.Rows[0]["username"];
+                newUser.Admin = (bool)dt.Rows[0]["is_admin"];
+
                 response.status = 200;
                 response.message = "Logged in successfully";
-                response.body = user;
+                response.body = newUser;
                 response.data = null;
             }
             else {
@@ -156,6 +161,110 @@ namespace cosmic_management_api.Models {
             con.Close();
             return response;
 
+        }
+
+        public Response getVendor(NpgsqlConnection con) {
+            con.Open();
+            Response response = new Response();
+            string Query = "SELECT * FROM festival.vendor";
+
+            NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            List<object> list = new List<object>();
+
+            if (dt.Rows.Count > 0) {
+                for (int i = 0; i < dt.Rows.Count; i++) {
+                    Vendor vendor = new Vendor();
+                    vendor.Id = (int)dt.Rows[i]["vendor_id"];
+                    vendor.Name = (string)dt.Rows[i]["name"];
+                    vendor.Type = (string)dt.Rows[i]["type"];
+                    vendor.Location = (int)dt.Rows[i]["location"];
+                    list.Add(vendor);
+                }
+                response.status = 200;
+                response.message = "Successfully queried vendors";
+                response.body = null;
+                response.data = list;
+            }
+            else {
+                response.status = 500;
+                response.message = "Failed to query vendors";
+                response.body = null;
+                response.data = null;
+            }
+            con.Close();
+            return response;
+        }
+
+        public Response updateVendor(NpgsqlConnection con, Vendor vendor) {
+            Response response = new Response();
+            string Query = string.Format("UPDATE festival.vendor SET name = '{0}', type = '{1}' WHERE prod_id = {2}", vendor.Name, vendor.Type, vendor.Id);
+            NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
+
+            int i = cmd.ExecuteNonQuery();
+            if (i > 0) {
+                response.status = 200;
+                response.message = "Successfully updated vendor";
+                response.body = vendor;
+                response.data = null;
+            }
+            else {
+                response.status = 100;
+                response.message = "Failed to update vendor";
+                response.body = null;
+                response.data = null;
+            }
+            con.Close();
+            return response;
+        }
+
+        public Response insertVendor(NpgsqlConnection con, Vendor vendor) {
+            con.Open();
+            Response response = new Response();
+            string Query = string.Format("INSERT INTO festival.vendor(name,type,location) VALUES ('{0}','{1}',{2})", vendor.Name, vendor.Type, vendor.Location); ;
+
+            NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
+            int i = cmd.ExecuteNonQuery();
+
+            if (i > 0) {
+                response.status = 200;
+                response.message = "Production created successfully";
+                response.body = vendor;
+                response.data = null;
+            }
+            else {
+                response.status = 500;
+                response.message = "Failed to create production";
+                response.body = null;
+                response.data = null;
+            }
+            con.Close();
+            return response;
+        }
+
+        public Response deleteVendor(NpgsqlConnection con, Vendor vendor) {
+            con.Open();
+            Response response = new Response();
+            string Query = string.Format("DELETE FROM festival.vendor WHERE vendor_id = {0})", vendor.Id);
+
+            NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
+            int i = cmd.ExecuteNonQuery();
+
+            if (i > 0) {
+                response.status = 200;
+                response.message = "Production created successfully";
+                response.body = null;
+                response.data = null;
+            }
+            else {
+                response.status = 500;
+                response.message = "Failed to create production";
+                response.body = null;
+                response.data = null;
+            }
+            con.Close();
+            return response;
         }
     }
 }

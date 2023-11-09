@@ -14,7 +14,7 @@ namespace cosmic_management_api.Controllers {
             _configuration = configuration;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("loginUser")] 
         public Response loginUser(User user) {
             NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
@@ -66,6 +66,61 @@ namespace cosmic_management_api.Controllers {
 
             Database db = new Database();
             Response response = db.insertProduction(con, prod);
+
+            return response;
+        }
+
+        [HttpDelete]
+        [Route("deleteProduction")]
+        public Response deleteProduction(Production prod) {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response response = db.deleteProduction(con, prod);
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("getVendor")]
+        public Response getVendor() {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response response = db.getVendor(con);
+
+            return response;
+        }
+
+        [HttpPut]
+        [Route("updateVendor")]
+        public Response updateVendor(Vendor vendor) {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response response = db.updateVendor(con, vendor);
+
+            return response;
+        }
+
+        [HttpPost]
+        [Route("insertVendor")]
+        public Response insertVendor(Vendor vendor) {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response response = db.insertVendor(con, vendor);
+
+            return response;
+        }
+
+        [HttpDelete]
+        [Route("deleteVendor")]
+        public Response deleteVendor(Vendor vendor) {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response response = db.deleteVendor(con, vendor);
 
             return response;
         }
