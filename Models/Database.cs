@@ -3,9 +3,9 @@ using System.Data;
 
 namespace cosmic_management_api.Models {
     public class Database {
-        public Response loginUser(NpgsqlConnection con, User user) {
+        public Response<User> loginUser(NpgsqlConnection con, User user) {
             con.Open();
-            Response response = new Response();
+            Response<User> response = new Response<User>();
             string Query = string.Format("SELECT * FROM festival.user WHERE username='{0}' AND password='{1}'", user.username, user.password);
 
             NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
@@ -33,9 +33,9 @@ namespace cosmic_management_api.Models {
             return response;
         }
 
-        public Response createUser(NpgsqlConnection con, User user) {
+        public Response<User> createUser(NpgsqlConnection con, User user) {
             con.Open();
-            Response response = new Response();
+            Response<User> response = new Response<User>();
             string Query = string.Format("INSERT INTO festival.user(name,username,password,is_admin) VALUES ('{0}','{1}','{2}',{3})",user.name, user.username, user.password, user.admin);
 
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
@@ -58,15 +58,15 @@ namespace cosmic_management_api.Models {
         }
 
         
-        public Response getProduction(NpgsqlConnection con) {
+        public Response<Production> getProduction(NpgsqlConnection con) {
             con.Open();
-            Response response = new Response();
+            Response<Production> response = new Response<Production>();
             string Query = "SELECT * FROM festival.production";
 
             NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
             DataTable dt = new DataTable();
             da.Fill(dt);
-            List<object> list = new List<object>();
+            List<Production> list = new List<Production>();
 
             if (dt.Rows.Count > 0) {
                 for (int i = 0; i < dt.Rows.Count; i++) {
@@ -91,9 +91,9 @@ namespace cosmic_management_api.Models {
             return response;
         }
 
-        public Response updateProduction(NpgsqlConnection con, Production prod) { 
+        public Response<Production> updateProduction(NpgsqlConnection con, Production prod) { 
             con.Open();
-            Response response = new Response();
+            Response<Production> response = new Response<Production>();
             string Query = string.Format("UPDATE festival.production SET type = '{0}', description = '{1}' WHERE prod_id = {2}", prod.type, prod.description, prod.id) ;
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
 
@@ -114,9 +114,9 @@ namespace cosmic_management_api.Models {
             return response;
         }
 
-        public Response insertProduction(NpgsqlConnection con, Production prod) {
+        public Response<Production> insertProduction(NpgsqlConnection con, Production prod) {
             con.Open();
-            Response response = new Response();
+            Response<Production> response = new Response<Production>();
             string Query = string.Format("INSERT INTO festival.production(type,description) VALUES ('{0}','{1}')", prod.type, prod.description);
 
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
@@ -138,9 +138,9 @@ namespace cosmic_management_api.Models {
             return response;
         }
 
-        public Response deleteProduction(NpgsqlConnection con, Production prod) {
+        public Response<Production> deleteProduction(NpgsqlConnection con, Production prod) {
             con.Open();
-            Response response = new Response();
+            Response<Production> response = new Response<Production>();
             string Query = string.Format("DELETE FROM festival.production WHERE type = '{0}' AND description = '{1}')", prod.type, prod.description);
 
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
@@ -163,15 +163,15 @@ namespace cosmic_management_api.Models {
 
         }
 
-        public Response getVendor(NpgsqlConnection con) {
+        public Response<Vendor> getVendor(NpgsqlConnection con) {
             con.Open();
-            Response response = new Response();
+            Response<Vendor> response = new Response<Vendor>();
             string Query = "SELECT * FROM festival.vendor";
 
             NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
             DataTable dt = new DataTable();
             da.Fill(dt);
-            List<object> list = new List<object>();
+            List<Vendor> list = new List<Vendor>();
 
             if (dt.Rows.Count > 0) {
                 for (int i = 0; i < dt.Rows.Count; i++) {
@@ -179,7 +179,6 @@ namespace cosmic_management_api.Models {
                     vendor.id = (int)dt.Rows[i]["vendor_id"];
                     vendor.name = (string)dt.Rows[i]["name"];
                     vendor.type = (string)dt.Rows[i]["type"];
-                    vendor.location = (int)dt.Rows[i]["location"];
                     list.Add(vendor);
                 }
                 response.status = 200;
@@ -197,8 +196,8 @@ namespace cosmic_management_api.Models {
             return response;
         }
 
-        public Response updateVendor(NpgsqlConnection con, Vendor vendor) {
-            Response response = new Response();
+        public Response<Vendor> updateVendor(NpgsqlConnection con, Vendor vendor) {
+            Response<Vendor> response = new Response<Vendor>();
             string Query = string.Format("UPDATE festival.vendor SET name = '{0}', type = '{1}' WHERE prod_id = {2}", vendor.name, vendor.type, vendor.id);
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
 
@@ -219,10 +218,10 @@ namespace cosmic_management_api.Models {
             return response;
         }
 
-        public Response insertVendor(NpgsqlConnection con, Vendor vendor) {
+        public Response<Vendor> insertVendor(NpgsqlConnection con, Vendor vendor) {
             con.Open();
-            Response response = new Response();
-            string Query = string.Format("INSERT INTO festival.vendor(name,type,location) VALUES ('{0}','{1}',{2})", vendor.name, vendor.type, vendor.location); ;
+            Response<Vendor> response = new Response<Vendor>();
+            string Query = string.Format("INSERT INTO festival.vendor(name,type) VALUES ('{0}','{1}')", vendor.name, vendor.type);
 
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
             int i = cmd.ExecuteNonQuery();
@@ -243,9 +242,9 @@ namespace cosmic_management_api.Models {
             return response;
         }
 
-        public Response deleteVendor(NpgsqlConnection con, Vendor vendor) {
+        public Response<Vendor> deleteVendor(NpgsqlConnection con, Vendor vendor) {
             con.Open();
-            Response response = new Response();
+            Response<Vendor> response = new Response<Vendor>();
             string Query = string.Format("DELETE FROM festival.vendor WHERE vendor_id = {0})", vendor.id);
 
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
