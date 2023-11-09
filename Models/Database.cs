@@ -180,12 +180,16 @@ namespace cosmic_management_api.Models {
                     vendor.name = (string)dt.Rows[i]["name"];
                     vendor.type = (string)dt.Rows[i]["type"];
                     list.Add(vendor);
+                }
+            }
+            con.Close();
+            return response;
         }
 
-        public StageResponse DeleteStage(NpgsqlConnection con, string name)
+        public Response<Stage> deleteStage(NpgsqlConnection con, string name)
         {
             con.Open();
-            StageResponse response = new StageResponse();
+            Response<Stage> response = new Response<Stage>();
             string Query = string.Format("DELETE FROM festival.stage WHERE name = '{0}'", name);
 
             NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
@@ -196,7 +200,7 @@ namespace cosmic_management_api.Models {
                 response.status = 200;
                 response.message = "Successfully queried vendors";
                 response.body = null;
-                response.data = list;
+                response.data = null;
             }
             else {
                 response.status = 500;
@@ -280,226 +284,227 @@ namespace cosmic_management_api.Models {
             return response;
 
         }
-                public StageResponse AddStage(NpgsqlConnection con, Stage stage) {
-                    con.Open();
-                    StageResponse response = new StageResponse();
 
-                    string Query = "INSERT INTO festival.stage VALUES(default, @name, @genre, @size)";
 
-                    NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
-                    cmd.Parameters.AddWithValue("@name", stage.name);
-                    cmd.Parameters.AddWithValue("@genre", stage.genre);
-                    cmd.Parameters.AddWithValue("@size", stage.size);
+        public Response<Stage> AddStage(NpgsqlConnection con, Stage stage) {
+            con.Open();
+            Response<Stage> response = new Response<Stage>();
 
-                    int i = cmd.ExecuteNonQuery();
+            string Query = "INSERT INTO festival.stage VALUES(default, @name, @genre, @size)";
 
-                    if (i > 0) {
-                        response.status = 200;
-                        response.message = "Stage added successfully";
-                        response.stage = stage;
-                        response.stages = null;
-                    }
-                    else {
-                        response.status = 500;
-                        response.message = "Failed to add stage";
-                        response.stage = null;
-                        response.stages = null;
-                    }
-                    con.Close();
-                    return response;
+            NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
+            cmd.Parameters.AddWithValue("@name", stage.name);
+            cmd.Parameters.AddWithValue("@genre", stage.genre);
+            cmd.Parameters.AddWithValue("@size", stage.size);
 
-                }
+            int i = cmd.ExecuteNonQuery();
 
-                public StageResponse DeleteStage(NpgsqlConnection con, string name) {
-                    con.Open();
-                    StageResponse response = new StageResponse();
-                    string Query = string.Format("DELETE FROM festival.stage WHERE name = '{0}'", name);
+            if (i > 0) {
+                response.status = 200;
+                response.message = "Stage added successfully";
+                response.body = stage;
+                response.data = null;
+            }
+            else {
+                response.status = 500;
+                response.message = "Failed to add stage";
+                response.body = null;
+                response.data = null;
+            }
+            con.Close();
+            return response;
 
-                    NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
-                    int i = cmd.ExecuteNonQuery();
+        }
 
-                    if (i > 0) {
-                        response.status = 200;
-                        response.message = "Stage deleted successfully";
-                        response.stage = null;
-                        response.stages = null;
-                    }
-                    else {
-                        response.status = 500;
-                        response.message = "Failed to delete stage";
-                        response.stage = null;
-                        response.stages = null;
-                    }
-                    con.Close();
-                    return response;
+        public Response<Stage> DeleteStage(NpgsqlConnection con, string name) {
+            con.Open();
+            Response<Stage> response = new Response<Stage>();
+            string Query = string.Format("DELETE FROM festival.stage WHERE name = '{0}'", name);
 
-                }
+            NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
+            int i = cmd.ExecuteNonQuery();
 
-                public StageResponse UpdateStage(NpgsqlConnection con, Stage stage) {
-                    con.Open();
-                    StageResponse response = new StageResponse();
-                    string Query = string.Format("UPDATE festival.stage SET name = '{0}', genre = '{1}', size = '{2}' WHERE stage_id = {3}", stage.name, stage.genre, stage.size, stage.id);
-                    NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
+            if (i > 0) {
+                response.status = 200;
+                response.message = "Stage deleted successfully";
+                response.body = null;
+                response.data = null;
+            }
+            else {
+                response.status = 500;
+                response.message = "Failed to delete stage";
+                response.body = null;
+                response.data = null;
+            }
+            con.Close();
+            return response;
 
-                    int i = cmd.ExecuteNonQuery();
-                    if (i > 0) {
-                        response.status = 200;
-                        response.message = "Successfully updated stage";
-                        response.stage = stage;
-                        response.stages = null;
-                    }
-                    else {
-                        response.status = 100;
-                        response.message = "Failed to update stage";
-                        response.stage = null;
-                        response.stages = null;
-                    }
-                    con.Close();
-                    return response;
-                }
+        }
 
-                public StageResponse GetStageByName(NpgsqlConnection con, string name) {
-                    StageResponse response = new StageResponse();
-                    string Query = string.Format("SELECT * FROM festival.stage WHERE name = '{0}'", name);
-                    NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
+        public Response<Stage> UpdateStage(NpgsqlConnection con, Stage stage) {
+            con.Open();
+            Response<Stage> response = new Response<Stage>();
+            string Query = string.Format("UPDATE festival.stage SET name = '{0}', genre = '{1}', size = '{2}' WHERE stage_id = {3}", stage.name, stage.genre, stage.size, stage.id);
+            NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
 
-                    NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
+            int i = cmd.ExecuteNonQuery();
+            if (i > 0) {
+                response.status = 200;
+                response.message = "Successfully updated stage";
+                response.body = stage;
+                response.data = null;
+            }
+            else {
+                response.status = 100;
+                response.message = "Failed to update stage";
+                response.body = null;
+                response.data = null;
+            }
+            con.Close();
+            return response;
+        }
 
-                    if (dt.Rows.Count > 0) // If table is not empty
-                    {
+        public Response<Stage> GetStageByName(NpgsqlConnection con, string name) {
+            Response<Stage> response = new Response<Stage>();
+            string Query = string.Format("SELECT * FROM festival.stage WHERE name = '{0}'", name);
+            NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
 
-                        Stage stage = new Stage();
+            NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
 
-                        stage.id = (int)dt.Rows[0]["stage_id"];
-                        stage.name = (string)dt.Rows[0]["name"];
-                        stage.genre = (string)dt.Rows[0]["genre"];
-                        stage.size = (string)dt.Rows[0]["size"];
+            if (dt.Rows.Count > 0) // If table is not empty
+            {
 
-                        response.status = 200;
-                        response.message = "Data retrieved successfully";
-                        response.stage = stage;
-                        response.stages = null;
-                    }
-                    else {
-                        response.status = 500;
-                        response.message = "Data failed to retrieve, or table is empty";
-                        response.stage = null;
-                        response.stages = null;
-                    }
-                    return response;
+                Stage stage = new Stage();
 
-                }
+                stage.id = (int)dt.Rows[0]["stage_id"];
+                stage.name = (string)dt.Rows[0]["name"];
+                stage.genre = (string)dt.Rows[0]["genre"];
+                stage.size = (string)dt.Rows[0]["size"];
 
-                public StageResponse GetAllStages(NpgsqlConnection con) {
-                    string Query = "SELECT * FROM festival.stage";
+                response.status = 200;
+                response.message = "Data retrieved successfully";
+                response.body = stage;
+                response.data = null;
+            }
+            else {
+                response.status = 500;
+                response.message = "Data failed to retrieve, or table is empty";
+                response.body = null;
+                response.data = null;
+            }
+            return response;
 
-                    NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
+        }
 
-                    StageResponse response = new StageResponse();
+        public Response<Stage> GetAllStages(NpgsqlConnection con) {
+            string Query = "SELECT * FROM festival.stage";
 
-                    List<Stage> stages = new List<Stage>();
+            NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
 
-                    if (dt.Rows.Count > 0) // If table is not empty
-                    {
-                        for (int i = 0; i < dt.Rows.Count; i++) {
-                            Stage stage = new Stage();
+            Response<Stage> response = new Response<Stage>();
 
-                            stage.id = (int)dt.Rows[i]["stage_id"];
-                            stage.name = (string)dt.Rows[i]["name"];
-                            stage.genre = (string)dt.Rows[i]["genre"];
-                            stage.size = (string)dt.Rows[i]["size"];
-                            stages.Add(stage);
-                        }
-                    }
+            List<Stage> stages = new List<Stage>();
 
-                    if (stages.Count > 0) {
-                        response.status = 200;
-                        response.message = "Data retrieved successfully";
-                        response.stage = null;
-                        response.stages = stages;
-                    }
-                    else {
-                        response.status = 100;
-                        response.message = "Data failed to retrieve, or table is empty";
-                        response.stage = null;
-                        response.stages = null;
-                    }
-                    return response;
-                }
-
-                public Response GetStageReqs(NpgsqlConnection con, int id) {
-                    string Query = string.Format("SELECT p.prod_id, type, description " +
-                                                 "FROM festival.stage_prod " +
-                                                 "INNER JOIN festival.production p on p.prod_id = stage_prod.prod_id " +
-                                                 "INNER JOIN festival.stage s on s.stage_id = stage_prod.stage_id " +
-                                                 "WHERE stage_prod.stage_id = '{0}'", id);
-
-                    NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    Response response = new Response();
-
-                    List<Production> stageReqsList = new List<Production>();
-
-                    if (dt.Rows.Count > 0) // If table is not empty
-                    {
-                        for (int i = 0; i < dt.Rows.Count; i++) {
-                            Production production = new Production();
-                            production.id = (int)dt.Rows[i]["prod_id"];
-                            production.type = (string)dt.Rows[i]["type"];
-                            production.description = (string)dt.Rows[i]["description"];
-
-                            stageReqsList.Add(production);
-                        }
-                    }
-
-                    if (stageReqsList.Count > 0) {
-                        response.status = 200;
-                        response.message = "Data retrieved successfully";
-                        response.body = null;
-                        response.data = stageReqsList;
-                    }
-                    else {
-                        response.status = 100;
-                        response.message = "Data failed to retrieve, or table is empty";
-                        response.body = null;
-                        response.data = null;
-                    }
-                    return response;
-                }
-
-                public Response AddStageReq(NpgsqlConnection con, Stage stage, Production prod) {
-                    con.Open();
-                    Response response = new Response();
-
-                    string Query = string.Format("INSERT INTO festival.stage_prod VALUES('{0}','{1}')", stage.id, prod.id);
-
-                    NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
-
-                    int i = cmd.ExecuteNonQuery();
-
-                    if (i > 0) {
-                        response.status = 200;
-                        response.message = "Data added successfully";
-                        response.body = null;
-                        response.data = null;
-                    }
-                    else {
-                        response.status = 500;
-                        response.message = "Failed to add data";
-                        response.body = null;
-                        response.data = null;
-                    }
-                    con.Close();
-                    return response;
-
+            if (dt.Rows.Count > 0) // If table is not empty
+            {
+                for (int i = 0; i < dt.Rows.Count; i++) {
+                    Stage stage = new Stage();
+                    stage.id = (int)dt.Rows[i]["stage_id"];
+                    stage.name = (string)dt.Rows[i]["name"];
+                    stage.genre = (string)dt.Rows[i]["genre"];
+                    stage.size = (string)dt.Rows[i]["size"];
+                    stages.Add(stage);
                 }
             }
-        
+
+            if (stages.Count > 0) {
+                response.status = 200;
+                response.message = "Data retrieved successfully";
+                response.body = null;
+                response.data = stages;
+            }
+            else {
+                response.status = 100;
+                response.message = "Data failed to retrieve, or table is empty";
+                response.body = null;
+                response.data = null;
+            }
+            con.Close();
+            return response;
+        }
+
+        public Response<Production> GetStageReqs(NpgsqlConnection con, int id) {
+            string Query = string.Format("SELECT p.prod_id, type, description " +
+                                            "FROM festival.stage_prod " +
+                                            "INNER JOIN festival.production p on p.prod_id = stage_prod.prod_id " +
+                                            "INNER JOIN festival.stage s on s.stage_id = stage_prod.stage_id " +
+                                            "WHERE stage_prod.stage_id = '{0}'", id);
+
+            NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            Response<Production> response = new Response<Production>();
+
+            List<Production> stageReqsList = new List<Production>();
+
+            if (dt.Rows.Count > 0) // If table is not empty
+            {
+                for (int i = 0; i < dt.Rows.Count; i++) {
+                    Production production = new Production();
+                    production.id = (int)dt.Rows[i]["prod_id"];
+                    production.type = (string)dt.Rows[i]["type"];
+                    production.description = (string)dt.Rows[i]["description"];
+
+                    stageReqsList.Add(production);
+                }
+            }
+
+            if (stageReqsList.Count > 0) {
+                response.status = 200;
+                response.message = "Data retrieved successfully";
+                response.body = null;
+                response.data = stageReqsList;
+            }
+            else {
+                response.status = 100;
+                response.message = "Data failed to retrieve, or table is empty";
+                response.body = null;
+                response.data = null;
+            }
+            return response;
+        }
+
+        public Response<Production> AddStageReq(NpgsqlConnection con, Stage stage, Production prod) {
+            con.Open();
+            Response<Production> response = new Response<Production>();
+
+            string Query = string.Format("INSERT INTO festival.stage_prod VALUES('{0}','{1}')", stage.id, prod.id);
+
+            NpgsqlCommand cmd = new NpgsqlCommand(Query, con);
+
+            int i = cmd.ExecuteNonQuery();
+
+            if (i > 0) {
+                response.status = 200;
+                response.message = "Data added successfully";
+                response.body = null;
+                response.data = null;
+            }
+            else {
+                response.status = 500;
+                response.message = "Failed to add data";
+                response.body = null;
+                response.data = null;
+            }
+            con.Close();
+            return response;
+
+        }
+    }
 }
 

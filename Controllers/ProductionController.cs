@@ -124,5 +124,73 @@ namespace cosmic_management_api.Controllers {
 
             return response;
         }
+
+        [HttpPost]
+        [Route("AddStage")]
+        public Response<Stage> AddStage(Stage stage) {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response<Stage> response = db.AddStage(con, stage);
+
+            return response;
+        }
+
+        [HttpPut]
+        [Route("UpdateStage")]
+        public Response<Stage> UpdateStage(Stage stage) {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response<Stage> response = db.UpdateStage(con, stage);
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("GetAllStages")]
+        public Response<Stage> llStages() {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response<Stage> response = db.GetAllStages(con);
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("GetStageByName/{name}")]
+        public Response<Stage> GetStageByName(string name) {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response<Stage> response = db.GetStageByName(con, name);
+
+            return response;
+        }
+
+        [HttpDelete]
+        [Route("DeleteStage/{name}")]
+        public Response<Stage> DeleteStage(string name) {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response<Stage> response = db.DeleteStage(con, name);
+
+            return response;
+        }
+
+        
+
+        [HttpGet]
+        [Route("GetStageReqs/{id}")]
+        public Response<Production> GetStageReqs(int id) {
+            NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
+
+            Database db = new Database();
+            Response<Production> response = db.GetStageReqs(con, id);
+
+            return response;
+        }
     }
 }
