@@ -31,3 +31,36 @@ C:\Users\Justin\Documents\Programming\cosmic-management-api\obj\Debug\net6.0\ref
 C:\Users\Justin\Documents\Programming\cosmic-management-api\obj\Debug\net6.0\cosmic-management-api.pdb
 C:\Users\Justin\Documents\Programming\cosmic-management-api\obj\Debug\net6.0\cosmic-management-api.genruntimeconfig.cache
 C:\Users\Justin\Documents\Programming\cosmic-management-api\obj\Debug\net6.0\ref\cosmic-management-api.dll
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\cosmic-management-api.dll
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\refint\cosmic-management-api.dll
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\cosmic-management-api.pdb
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\bin\Debug\net6.0\appsettings.json
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\bin\Debug\net6.0\cosmic-management-api.exe
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\bin\Debug\net6.0\cosmic-management-api.deps.json
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\bin\Debug\net6.0\cosmic-management-api.runtimeconfig.json
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\bin\Debug\net6.0\cosmic-management-api.dll
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\bin\Debug\net6.0\cosmic-management-api.pdb
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\bin\Debug\net6.0\Npgsql.dll
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\cosmic-management-api.csproj.AssemblyReference.cache
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\cosmic-management-api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\cosmic-management-api.AssemblyInfoInputs.cache
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\cosmic-management-api.AssemblyInfo.cs
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\cosmic-management-api.csproj.CoreCompileInputs.cache
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\cosmic-management-api.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\cosmic-management-api.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\staticwebassets\msbuild.cosmic-management-api.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\staticwebassets\msbuild.build.cosmic-management-api.props
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.cosmic-management-api.props
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.cosmic-management-api.props
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\staticwebassets.pack.json
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\scopedcss\bundle\cosmic-management-api.styles.css
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\cosmic-management-api.csproj.CopyComplete
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\cosmic-management-api.genruntimeconfig.cache
+C:\Users\Tristan\Desktop\Application Development\cosmic-management-api\obj\Debug\net6.0\ref\cosmic-management-api.dll
