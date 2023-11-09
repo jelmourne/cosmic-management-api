@@ -1,10 +1,10 @@
 ﻿using Microsoft.OpenApi.Any;
 
 namespace cosmic_management_api.Models {
-    public class Response {
+    public class Response<T> {
         public int status { get; set; }
         public string message { get; set; }
         public object body { get; set; }
-        public List<Production> data { get; set; }
+        public List<T> data { get; set; }
     }
 }
