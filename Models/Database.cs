@@ -3,10 +3,10 @@ using System.Data;
 
 namespace cosmic_management_api.Models {
     public class Database {
-        public Response<User> loginUser(NpgsqlConnection con, User user) {
+        public Response<User> loginUser(NpgsqlConnection con, string user) {
             con.Open();
             Response<User> response = new Response<User>();
-            string Query = string.Format("SELECT * FROM festival.user WHERE username='{0}' AND password='{1}'", user.username, user.password);
+            string Query = string.Format("SELECT * FROM festival.user WHERE username='{0}'", user);
 
             NpgsqlDataAdapter da = new NpgsqlDataAdapter(Query, con);
             DataTable dt = new DataTable();
@@ -14,8 +14,10 @@ namespace cosmic_management_api.Models {
 
             if(dt.Rows.Count > 0) {
                 User newUser = new User();
+                newUser.id = (int)dt.Rows[0]["user_id"];
                 newUser.name = (string)dt.Rows[0]["name"];
                 newUser.username = (string)dt.Rows[0]["username"];
+                newUser.password = (string)dt.Rows[0]["password"];
                 newUser.admin = (bool)dt.Rows[0]["is_admin"];
 
                 response.status = 200;

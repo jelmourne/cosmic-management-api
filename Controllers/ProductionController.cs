@@ -15,8 +15,8 @@ namespace cosmic_management_api.Controllers {
         }
 
         [HttpGet]
-        [Route("loginUser")] 
-        public Response<User> loginUser(User user) {
+        [Route("loginUser/{user}")] 
+        public Response<User> loginUser(string user) {
             NpgsqlConnection con = new NpgsqlConnection(_configuration.GetConnectionString("DatabaseConnection"));
 
             Database db = new Database();
